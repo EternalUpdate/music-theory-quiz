@@ -4,8 +4,8 @@ export class ChromaticScale {
     static combined: string[] = ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A','A#', 'Bb', 'B'];
 }
 
-export function getRandomNote(): string {
-    const randomIndex = Math.floor(Math.random() * ChromaticScale.combined.length);
+export function getRandomNote(notes: string[] = ChromaticScale.combined): string {
+    const randomIndex = Math.floor(Math.random() * notes.length);
 
     return ChromaticScale.combined[randomIndex];
 }
