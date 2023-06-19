@@ -1,5 +1,6 @@
-import { Key } from "tonal";
+import { Key, Mode } from "tonal";
 import { ChromaticScale, getRandomNote } from "../refs/ChromaticScale";
+import { getRandomMode } from "../refs/Modes";
 
 const grades = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
 
@@ -8,29 +9,50 @@ export type ChordGradesQuestion = {
     answer: string;
 }
 
-/**
- * Returns a question asking for the chord grade of a random key.
- * 
- * @returns {ChordGradesQuestion} A question asking for the chord grade of a random key.
- */
-export function getChordGradesQuestion(keys: string[] = ChromaticScale.combined): ChordGradesQuestion {
+
+export function getChordGradesQuestion(keys: string[] = ChromaticScale.combined, modes: string[] = Mode.names()): ChordGradesQuestion {
     const note = getRandomNote(keys);
-    let quality: string;
+    const randomMode = getRandomMode(modes)
+
+    let mode = "";
     let answer = "";
     const gradeIndex = Math.floor(Math.random() * grades.length);
 
-    if (Math.random() > 0.5) {
-        const key = Key.minorKey(note);
-        answer = key.natural.triads[gradeIndex];
-        quality = "minor";
-    } else {
-        const key = Key.majorKey(note);
-        answer = key.triads[gradeIndex];
-        quality = "major";
+    switch (randomMode) {
+        case "major":
+        case "ionian":
+            mode = "ionian";
+            answer = Mode.triads("ionian", note)[gradeIndex];
+            break;
+        case "dorian":
+            mode = "dorian";
+            answer = Mode.triads("dorian", note)[gradeIndex];
+            break;
+        case "phrygian":
+            mode = "phrygian";
+            answer = Mode.triads("phrygian", note)[gradeIndex];
+            break;
+        case "lydian":
+            mode = "lydian";
+            answer = Mode.triads("lydian", note)[gradeIndex];
+            break;
+        case "mixolydian":
+            mode = "mixolydian";
+            answer = Mode.triads("mixolydian", note)[gradeIndex];
+            break;
+        case "minor":
+        case "aeolian":
+            mode = "aeolian";
+            answer = Mode.triads("aeolian", note)[gradeIndex];
+            break;
+        case "locrian":
+            mode = "locrian";
+            answer = Mode.triads("locrian", note)[gradeIndex];
+            break;
     }
 
     return {
-        question: `What is the ${grades[gradeIndex]} chord in the key of ${note} ${quality}?`,
+        question: `What is the ${grades[gradeIndex]} chord in ${note} ${mode}?`,
         answer: answer
     }
 }
