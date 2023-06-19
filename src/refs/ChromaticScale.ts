@@ -7,5 +7,5 @@ export class ChromaticScale {
 export function getRandomNote(notes: string[] = ChromaticScale.combined): string {
     const randomIndex = Math.floor(Math.random() * notes.length);
 
-    return ChromaticScale.combined[randomIndex];
+    return notes[randomIndex];
 }
