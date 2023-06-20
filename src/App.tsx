@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Heading, Text, Input, Button, VStack, Grid } from "@chakra-ui/react";
+import {
+    Heading,
+    Text,
+    Input,
+    Button,
+    VStack,
+    Grid,
+    Link,
+} from "@chakra-ui/react";
 import {
     ChordGradesQuestion,
     getChordGradesQuestion,
@@ -62,38 +70,41 @@ function App() {
 
     return (
         <>
-            <VStack p="2rem">
-                <Text fontSize="md" fontWeight={500} color={"gray.800"}>
+            <VStack pt="2rem" pb="2rem">
+                <Text fontSize="md" fontWeight={600}>
                     Music Theory Quiz
                 </Text>
+                {/* Quiz */}
                 <VStack
-                    spacing={8}
-                    mt={10}
-                    p={20}
-                    border={started ? "8px" : "0px"}
-                    borderColor={"teal.300"}
-                    borderRadius={"100px"}
-                    maxWidth={"70%"}
+                    className="quiz-container"
+                    spacing={5}
+                    mt={4}
+                    pt={28}
+                    pb={32}
+                    paddingX={4}
+                    bgColor={"gray.800"}
+                    width="100%"
+                    textAlign={"center"}
                 >
                     {started ? (
-                        <Text fontSize="lg" color={"gray.500"}>
+                        <Text fontSize="lg" color="gray.500">
                             Score: {score}
                         </Text>
                     ) : (
                         ""
                     )}
-                    <Text fontSize="2xl" fontWeight={500} color={"gray.800"}>
+                    <Text fontSize="2xl" fontWeight={500}>
                         {question?.question}
                     </Text>
                     {started ? (
                         <Input
                             value={answer}
                             size="lg"
-                            maxWidth={"5rem"}
+                            maxWidth={"8rem"}
                             textAlign={"center"}
                             border={"2px"}
-                            borderColor={"gray.300"}
-                            focusBorderColor={"gray.300"}
+                            borderColor={"teal.300"}
+                            focusBorderColor={"teal.300"}
                             autoFocus
                             onChange={handleInputChange}
                         />
@@ -103,27 +114,44 @@ function App() {
                     {started ? (
                         ""
                     ) : (
-                        <Button onClick={handleBegin}>Begin</Button>
+                        <Button size="lg" variant="solid" onClick={handleBegin}>
+                            Begin
+                        </Button>
                     )}
                 </VStack>
-                <VStack mt={20} width={"100%"}>
-                    <Heading size="lg" color={"gray.800"} pb="10">
+                {/* Settings */}
+                <VStack mt={14} width={"100%"} className="settings-container">
+                    <Heading size="lg" pb="10">
                         Settings
                     </Heading>
-                    <Grid templateColumns="repeat(2, 1fr)" gap={6} width="60%">
-                        <VStack>
-                            <Heading size="md" color={"gray.800"}>
-                                Key
-                            </Heading>
-                            <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+                    <Grid
+                        templateColumns={{
+                            sm: "repeat(1, 1fr)",
+                            md: "repeat(2, 1fr)",
+                        }}
+                        gap={{ base: 20, md: 6 }}
+                        width={{ sm: "100%", md: "60%" }}
+                    >
+                        <VStack gap={8} className="key-settings-container">
+                            <Heading size="md">Key</Heading>
+                            <Grid
+                                templateColumns="repeat(3, 1fr)"
+                                gap={6}
+                                p={{ sm: "0rem", md: "1rem" }}
+                            >
                                 <KeyChoices onChange={handleKeyChoiceChange} />
                             </Grid>
                         </VStack>
-                        <VStack>
-                            <Heading size="md" color={"gray.800"}>
-                                Mode
-                            </Heading>
-                            <Grid templateColumns="repeat(1, 1fr)" gap={6}>
+                        <VStack gap={8} className="mode-settings-container">
+                            <Heading size="md">Mode</Heading>
+                            <Grid
+                                templateColumns={{
+                                    base: "repeat(2, 1fr)",
+                                    md: "repeat(1, 1fr)",
+                                }}
+                                gap={6}
+                                p={{ sm: "0rem", md: "1rem" }}
+                            >
                                 <ModeChoices
                                     onChange={handleModeChoiceChange}
                                 />
@@ -131,6 +159,17 @@ function App() {
                         </VStack>
                     </Grid>
                 </VStack>
+                {/* Footer */}
+                <Text fontSize="sm" mt={20}>
+                    Brought to you by{" "}
+                    <Link
+                        href="https://github.com/EternalUpdate/music-theory-quiz"
+                        target="_blank"
+                        fontWeight={600}
+                    >
+                        EternalUpdate
+                    </Link>
+                </Text>
             </VStack>
         </>
     );
