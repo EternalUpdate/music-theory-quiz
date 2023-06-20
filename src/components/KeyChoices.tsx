@@ -19,7 +19,6 @@ const KeyChoices = ({ choices, onChange }: keyChoicesProps) => {
                         key={choice}
                         value={choice}
                         size="lg"
-                        color={"gray.800"}
                         onChange={onChange}
                         defaultChecked={choice === "C" ? true : false}
                     >

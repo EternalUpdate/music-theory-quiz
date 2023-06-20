@@ -19,7 +19,6 @@ const ModeChoices = ({ choices, onChange }: modeChoicesProps) => {
                         key={choice}
                         value={choice}
                         size="lg"
-                        color={"gray.800"}
                         onChange={onChange}
                         defaultChecked={choice === "ionian" ? true : false}
                     >
