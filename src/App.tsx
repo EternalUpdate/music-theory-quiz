@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Heading, Text, Input, Button, VStack, HStack } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Heading, Text, Input, Button, VStack, Grid } from "@chakra-ui/react";
 import {
     ChordGradesQuestion,
     getChordGradesQuestion,
@@ -28,19 +28,11 @@ function App() {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAnswer(e.target.value);
-        validateAnswer();
-    };
-
-    const validateAnswer = () => {
-        if (question?.answer.toLowerCase() === answer.toLocaleLowerCase()) {
-            setAnswer("");
-            setScore(score + 1);
-            getNextQuestion();
-        }
     };
 
     const handleKeyChoiceChange = (e: any) => {
         if (e.target.checked) {
+            ``;
             setSelectedKeys([...selectedKeys, e.target.value]);
         } else {
             setSelectedKeys(
@@ -58,6 +50,15 @@ function App() {
             );
         }
     };
+
+    useEffect(() => {
+        // validate answer when the input changes
+        if (question?.answer.toLowerCase() === answer.toLocaleLowerCase()) {
+            setAnswer("");
+            setScore(score + 1);
+            getNextQuestion();
+        }
+    }, [answer]);
 
     return (
         <>
@@ -105,26 +106,30 @@ function App() {
                         <Button onClick={handleBegin}>Begin</Button>
                     )}
                 </VStack>
-                <VStack mt={20}>
-                    <Heading size="lg" color={"gray.800"}>
+                <VStack mt={20} width={"100%"}>
+                    <Heading size="lg" color={"gray.800"} pb="10">
                         Settings
                     </Heading>
-                    <VStack>
-                        <Heading size="md" color={"gray.800"}>
-                            Key
-                        </Heading>
-                        <HStack maxWidth={"50%"} wrap={"wrap"} spacing={5}>
-                            <KeyChoices onChange={handleKeyChoiceChange} />
-                        </HStack>
-                    </VStack>
-                    <VStack>
-                        <Heading size="md" color={"gray.800"}>
-                            Mode
-                        </Heading>
-                        <HStack maxWidth={"50%"} wrap={"wrap"} spacing={5}>
-                            <ModeChoices onChange={handleModeChoiceChange} />
-                        </HStack>
-                    </VStack>
+                    <Grid templateColumns="repeat(2, 1fr)" gap={6} width="60%">
+                        <VStack>
+                            <Heading size="md" color={"gray.800"}>
+                                Key
+                            </Heading>
+                            <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+                                <KeyChoices onChange={handleKeyChoiceChange} />
+                            </Grid>
+                        </VStack>
+                        <VStack>
+                            <Heading size="md" color={"gray.800"}>
+                                Mode
+                            </Heading>
+                            <Grid templateColumns="repeat(1, 1fr)" gap={6}>
+                                <ModeChoices
+                                    onChange={handleModeChoiceChange}
+                                />
+                            </Grid>
+                        </VStack>
+                    </Grid>
                 </VStack>
             </VStack>
         </>
