@@ -10,8 +10,12 @@ import ModeChoices from "./components/ModeChoices";
 function App() {
     const [question, setQuestion] = useState<ChordGradesQuestion | null>(null);
     const [answer, setAnswer] = useState("");
+
     const [started, setStarted] = useState(false);
     const [score, setScore] = useState(0);
+
+    const [selectedKeys, setSelectedKeys] = useState<string[]>(["C"]);
+    const [selectedModes, setSelectedModes] = useState<string[]>(["ionian"]);
 
     const handleBegin = () => {
         setStarted(true);
@@ -19,11 +23,11 @@ function App() {
     };
 
     const getNextQuestion = () => {
-        setQuestion(getChordGradesQuestion());
+        setQuestion(getChordGradesQuestion(selectedKeys, selectedModes));
     };
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setAnswer(event.target.value);
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setAnswer(e.target.value);
         validateAnswer();
     };
 
@@ -35,8 +39,24 @@ function App() {
         }
     };
 
-    const handleKeyChoiceChange = () => {
-        console.log("key choice changed");
+    const handleKeyChoiceChange = (e: any) => {
+        if (e.target.checked) {
+            setSelectedKeys([...selectedKeys, e.target.value]);
+        } else {
+            setSelectedKeys(
+                selectedKeys.filter((key) => key !== e.target.value)
+            );
+        }
+    };
+
+    const handleModeChoiceChange = (e: any) => {
+        if (e.target.checked) {
+            setSelectedModes([...selectedModes, e.target.value]);
+        } else {
+            setSelectedModes(
+                selectedModes.filter((mode) => mode !== e.target.value)
+            );
+        }
     };
 
     return (
@@ -49,7 +69,7 @@ function App() {
                     spacing={8}
                     mt={10}
                     p={20}
-                    border={"8px"}
+                    border={started ? "8px" : "0px"}
                     borderColor={"teal.300"}
                     borderRadius={"100px"}
                     maxWidth={"70%"}
@@ -102,7 +122,7 @@ function App() {
                             Mode
                         </Heading>
                         <HStack maxWidth={"50%"} wrap={"wrap"} spacing={5}>
-                            <ModeChoices onChange={handleKeyChoiceChange} />
+                            <ModeChoices onChange={handleModeChoiceChange} />
                         </HStack>
                     </VStack>
                 </VStack>
