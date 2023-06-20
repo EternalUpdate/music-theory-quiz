@@ -1,4 +1,4 @@
-import { Key, Mode } from "tonal";
+import { Mode } from "tonal";
 import { ChromaticScale, getRandomNote } from "../refs/ChromaticScale";
 import { getRandomMode } from "../refs/Modes";
 
