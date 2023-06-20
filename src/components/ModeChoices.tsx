@@ -3,7 +3,7 @@ import { Mode } from "tonal";
 
 interface modeChoicesProps {
     choices?: string[];
-    onChange: () => void;
+    onChange: (e: any) => void;
 }
 
 const ModeChoices = ({ choices, onChange }: modeChoicesProps) => {
@@ -17,9 +17,11 @@ const ModeChoices = ({ choices, onChange }: modeChoicesProps) => {
                 return (
                     <Checkbox
                         key={choice}
+                        value={choice}
                         size="lg"
                         color={"gray.800"}
                         onChange={onChange}
+                        defaultChecked={choice === "ionian" ? true : false}
                     >
                         {choice}
                     </Checkbox>

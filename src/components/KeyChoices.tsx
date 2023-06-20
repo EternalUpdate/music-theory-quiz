@@ -3,7 +3,7 @@ import { ChromaticScale } from "../refs/ChromaticScale";
 
 interface keyChoicesProps {
     choices?: string[];
-    onChange: () => void;
+    onChange: (e: any) => void;
 }
 
 const KeyChoices = ({ choices, onChange }: keyChoicesProps) => {
@@ -17,9 +17,11 @@ const KeyChoices = ({ choices, onChange }: keyChoicesProps) => {
                 return (
                     <Checkbox
                         key={choice}
+                        value={choice}
                         size="lg"
                         color={"gray.800"}
                         onChange={onChange}
+                        defaultChecked={choice === "C" ? true : false}
                     >
                         {choice}
                     </Checkbox>
