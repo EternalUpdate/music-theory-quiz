@@ -1,16 +1,11 @@
 import { Mode } from "tonal";
 import { ChromaticScale, getRandomNote } from "../refs/ChromaticScale";
 import { getRandomMode } from "../refs/Modes";
+import { Question } from "./Question";
 
 const grades = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
 
-export type ChordGradesQuestion = {
-    question: string;
-    answer: string;
-}
-
-
-export function getChordGradesQuestion(keys: string[] = ChromaticScale.combined, modes: string[] = Mode.names()): ChordGradesQuestion {
+export function getChordGradesQuestion(keys: string[] = ChromaticScale.combined, modes: string[] = Mode.names()): Question {
     const note = getRandomNote(keys);
     const randomMode = getRandomMode(modes)
 
