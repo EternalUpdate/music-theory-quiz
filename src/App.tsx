@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
     Heading,
     Text,
@@ -8,15 +8,16 @@ import {
     Grid,
     Link,
 } from "@chakra-ui/react";
-import {
-    ChordGradesQuestion,
-    getChordGradesQuestion,
-} from "./questions/ChordGradesQuestions";
+import { Question } from "./questions/Question";
+import { getChordGradesQuestion } from "./questions/ChordGradesQuestions";
 import KeyChoices from "./components/KeyChoices";
 import ModeChoices from "./components/ModeChoices";
 
+// TODO: add a timer
+// TODO: add more questions (e.g. scales, chord progressions, spelling triads, intervals, etc.)
+
 function App() {
-    const [question, setQuestion] = useState<ChordGradesQuestion | null>(null);
+    const [question, setQuestion] = useState<Question | null>(null);
     const [answer, setAnswer] = useState("");
 
     const [started, setStarted] = useState(false);
@@ -24,6 +25,8 @@ function App() {
 
     const [selectedKeys, setSelectedKeys] = useState<string[]>(["C"]);
     const [selectedModes, setSelectedModes] = useState<string[]>(["ionian"]);
+
+    // Controller functions
 
     const handleBegin = () => {
         setStarted(true);
@@ -34,11 +37,25 @@ function App() {
         setQuestion(getChordGradesQuestion(selectedKeys, selectedModes));
     };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setAnswer(e.target.value);
+    // Answer input functions
+
+    const validateAnswer = (input: string) => {
+        if (question?.answer.toLowerCase() === input.toLocaleLowerCase()) {
+            setAnswer("");
+            setScore(score + 1);
+            getNextQuestion();
+        }
     };
 
-    const handleKeyChoiceChange = (e: any) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const input = e.target.value;
+        setAnswer(input);
+        validateAnswer(input);
+    };
+
+    // Settings functions
+
+    const handleKeyChoiceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked) {
             ``;
             setSelectedKeys([...selectedKeys, e.target.value]);
@@ -49,7 +66,7 @@ function App() {
         }
     };
 
-    const handleModeChoiceChange = (e: any) => {
+    const handleModeChoiceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked) {
             setSelectedModes([...selectedModes, e.target.value]);
         } else {
@@ -59,21 +76,13 @@ function App() {
         }
     };
 
-    useEffect(() => {
-        // validate answer when the input changes
-        if (question?.answer.toLowerCase() === answer.toLocaleLowerCase()) {
-            setAnswer("");
-            setScore(score + 1);
-            getNextQuestion();
-        }
-    }, [answer]);
-
     return (
         <>
             <VStack pt="2rem" pb="2rem">
                 <Text fontSize="md" fontWeight={600}>
                     Music Theory Quiz
                 </Text>
+
                 {/* Quiz */}
                 <VStack
                     className="quiz-container"
@@ -119,6 +128,7 @@ function App() {
                         </Button>
                     )}
                 </VStack>
+
                 {/* Settings */}
                 <VStack mt={14} width={"100%"} className="settings-container">
                     <Heading size="lg" pb="10">
@@ -159,6 +169,7 @@ function App() {
                         </VStack>
                     </Grid>
                 </VStack>
+
                 {/* Footer */}
                 <Text fontSize="sm" mt={20}>
                     Brought to you by{" "}
