@@ -3,7 +3,7 @@ import { ChromaticScale } from "../refs/ChromaticScale";
 
 interface keyChoicesProps {
     choices?: string[];
-    onChange: (e: any) => void;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const KeyChoices = ({ choices, onChange }: keyChoicesProps) => {

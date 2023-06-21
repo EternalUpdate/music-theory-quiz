@@ -3,7 +3,7 @@ import { Mode } from "tonal";
 
 interface modeChoicesProps {
     choices?: string[];
-    onChange: (e: any) => void;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const ModeChoices = ({ choices, onChange }: modeChoicesProps) => {
