@@ -8,7 +8,7 @@ const Home = () => {
             <Helmet>
                 <title>Home - Music Theory Quiz App</title>
             </Helmet>
-            <VStack marginY={12}>
+            <VStack marginY={12} paddingX={10}>
                 <Heading size="lg" marginY={16} textAlign={"center"}>
                     What do you want to be tested on?
                 </Heading>

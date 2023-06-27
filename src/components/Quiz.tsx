@@ -47,52 +47,50 @@ const Quiz = <T extends Settings>({ getQuestion, settings }: QuizProps<T>) => {
 
     return (
         <>
-            <VStack pt="2rem" pb="2rem">
-                {/* Quiz */}
-                <VStack
-                    className="quiz-container"
-                    spacing={5}
-                    mt={4}
-                    pt={28}
-                    pb={32}
-                    paddingX={4}
-                    bgColor={"gray.800"}
-                    width="100%"
-                    textAlign={"center"}
-                >
-                    {started ? (
-                        <Text fontSize="lg" color="gray.500">
-                            Score: {score}
-                        </Text>
-                    ) : (
-                        ""
-                    )}
-                    <Text fontSize="2xl" fontWeight={500}>
-                        {question?.question}
+            {/* Quiz */}
+            <VStack
+                className="quiz-container"
+                spacing={5}
+                mt={4}
+                pt={28}
+                pb={32}
+                paddingX={4}
+                bgColor={"gray.800"}
+                width="100%"
+                textAlign={"center"}
+            >
+                {started ? (
+                    <Text fontSize="lg" color="gray.500">
+                        Score: {score}
                     </Text>
-                    {started ? (
-                        <Input
-                            value={answer}
-                            size="lg"
-                            maxWidth={"8rem"}
-                            textAlign={"center"}
-                            border={"2px"}
-                            borderColor={"teal.300"}
-                            focusBorderColor={"teal.300"}
-                            autoFocus
-                            onChange={handleInputChange}
-                        />
-                    ) : (
-                        ""
-                    )}
-                    {started ? (
-                        ""
-                    ) : (
-                        <Button size="lg" variant="solid" onClick={handleBegin}>
-                            Begin
-                        </Button>
-                    )}
-                </VStack>
+                ) : (
+                    ""
+                )}
+                <Text fontSize="2xl" fontWeight={500}>
+                    {question?.question}
+                </Text>
+                {started ? (
+                    <Input
+                        value={answer}
+                        size="lg"
+                        maxWidth={"8rem"}
+                        textAlign={"center"}
+                        border={"2px"}
+                        borderColor={"teal.300"}
+                        focusBorderColor={"teal.300"}
+                        autoFocus
+                        onChange={handleInputChange}
+                    />
+                ) : (
+                    ""
+                )}
+                {started ? (
+                    ""
+                ) : (
+                    <Button size="lg" variant="solid" onClick={handleBegin}>
+                        Begin
+                    </Button>
+                )}
             </VStack>
         </>
     );
