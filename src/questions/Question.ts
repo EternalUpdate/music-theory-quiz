@@ -4,3 +4,7 @@ export interface Question {
     information?: string;
     hint?: string;
 }
+
+export function equalQuestions(a: Question, b: Question): boolean {
+    return a.question === b.question && a.answer === b.answer;
+}
