@@ -1,10 +1,15 @@
 import { useState } from "react";
 import { Text, Input, Button, VStack } from "@chakra-ui/react";
-import { Question } from "../questions/Question";
+import { Question, equalQuestions } from "../questions/Question";
 import { Settings } from "../settings/Settings";
 
 // TODO: add a timer
 // TODO: add more questions (e.g. scales, chord progressions, spelling triads, intervals, etc.)
+
+// TODO: add accidentals buttons for mobile
+// TODO: add question history to avoid the same question twice
+// TODO: add correct / incorrect colored input box border
+// TODO: add a little delay before showing the next question
 
 type QuizProps<T extends Settings> = {
     getQuestion: (settings: T) => Question;
@@ -26,7 +31,13 @@ const Quiz = <T extends Settings>({ getQuestion, settings }: QuizProps<T>) => {
     };
 
     const getNextQuestion = () => {
-        setQuestion(getQuestion(settings));
+        let nextQuestion: Question = getQuestion(settings);
+
+        while (question && equalQuestions(question, nextQuestion)) {
+            nextQuestion = getQuestion(settings);
+        }
+
+        setQuestion(nextQuestion);
     };
 
     // Answer input functions
