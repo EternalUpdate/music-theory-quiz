@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text, Input, Button, VStack } from "@chakra-ui/react";
 import { Question, equalQuestions } from "../questions/Question";
 import { Settings } from "../settings/Settings";
@@ -7,9 +7,6 @@ import { Settings } from "../settings/Settings";
 // TODO: add more questions (e.g. scales, chord progressions, spelling triads, intervals, etc.)
 
 // TODO: add accidentals buttons for mobile
-// TODO: add question history to avoid the same question twice
-// TODO: add correct / incorrect colored input box border
-// TODO: add a little delay before showing the next question
 
 type QuizProps<T extends Settings> = {
     getQuestion: (settings: T) => Question;
@@ -18,10 +15,11 @@ type QuizProps<T extends Settings> = {
 
 const Quiz = <T extends Settings>({ getQuestion, settings }: QuizProps<T>) => {
     const [question, setQuestion] = useState<Question | null>(null);
-    const [answer, setAnswer] = useState("");
+    const [answer, setAnswer] = useState<string>("");
 
-    const [started, setStarted] = useState(false);
-    const [score, setScore] = useState(0);
+    const [started, setStarted] = useState<boolean>(false);
+    const [score, setScore] = useState<number>(0);
+    const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
     // Controller functions
 
@@ -38,15 +36,17 @@ const Quiz = <T extends Settings>({ getQuestion, settings }: QuizProps<T>) => {
         }
 
         setQuestion(nextQuestion);
+        setAnswer("");
     };
 
     // Answer input functions
 
     const validateAnswer = (input: string) => {
         if (question?.answer.toLowerCase() === input.toLocaleLowerCase()) {
-            setAnswer("");
+            setIsCorrect(true);
             setScore(score + 1);
-            getNextQuestion();
+        } else {
+            setIsCorrect(false);
         }
     };
 
@@ -55,6 +55,20 @@ const Quiz = <T extends Settings>({ getQuestion, settings }: QuizProps<T>) => {
         setAnswer(input);
         validateAnswer(input);
     };
+
+    // Add slight delay before next question
+    useEffect(() => {
+        console.log(isCorrect);
+
+        if (isCorrect !== null) {
+            setTimeout(() => {
+                if (isCorrect) {
+                    getNextQuestion();
+                }
+                setIsCorrect(null);
+            }, 500);
+        }
+    }, [isCorrect]);
 
     return (
         <>
@@ -87,8 +101,14 @@ const Quiz = <T extends Settings>({ getQuestion, settings }: QuizProps<T>) => {
                         maxWidth={"8rem"}
                         textAlign={"center"}
                         border={"2px"}
-                        borderColor={"teal.300"}
-                        focusBorderColor={"teal.300"}
+                        borderColor={"teal.500"}
+                        focusBorderColor={
+                            isCorrect === true
+                                ? "green.300"
+                                : isCorrect === false
+                                ? "red.300"
+                                : "teal.500"
+                        }
                         autoFocus
                         onChange={handleInputChange}
                     />
