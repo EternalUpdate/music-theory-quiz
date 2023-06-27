@@ -1,13 +1,14 @@
 import { Mode } from "tonal";
-import { ChromaticScale, getRandomNote } from "../refs/ChromaticScale";
+import { getRandomNote } from "../refs/ChromaticScale";
 import { getRandomMode } from "../refs/Modes";
 import { Question } from "./Question";
+import { ChordGradesSettings } from "../settings/ChordGradesSettings";
 
 const grades = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
 
-export function getChordGradesQuestion(keys: string[] = ChromaticScale.combined, modes: string[] = Mode.names()): Question {
-    const note = getRandomNote(keys);
-    const randomMode = getRandomMode(modes)
+export function getChordGradesQuestion(settings: ChordGradesSettings): Question {
+    const note = getRandomNote(settings.keys);
+    const randomMode = getRandomMode(settings.modes)
 
     let mode = "";
     let answer = "";
